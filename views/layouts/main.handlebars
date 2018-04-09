@@ -14,6 +14,32 @@
     </head>
     <body>
 
+		<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="/">Mongo Scraper</a>
+					</div>
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+							<li><a id="saved" href="/saved">Saved Articles</a></li>
+						</ul>
+						<form class="navbar-form navbar-left" action="/api/fetch" method="get">
+							<button class="btn btn-danger scrape">Scrape New Articles!</button>
+						</form>
+				</div>
+			</nav>
+			<div class="jumbotron text-center">
+                <div class="overlay">
+                </div>
+                <div class="background-image"><img class="main-img" src="../../public/assets/image/background.jpg" alt="header-image"/></div>
+                <div class="caption">
+                    <h1>MONGO SCRAPER</h1>
+                    <p>New York Times Edition</p>
+                </div>
+			</div>
+
+
+		{{{ body }}}
 
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
