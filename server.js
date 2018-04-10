@@ -44,3 +44,61 @@ app.set("view engine", "handlebars");
 var databaseUri = "mongodb://localhost/mongoosearticles";
 //mongoose.connect("mongodb://localhost/mongoscraper");
 var db = mongoose.connection;
+
+// A GET request to scrape the echojs website
+
+app.get("/scrape", function(req,res){
+    //We first must grab the body of the html
+    request("https://www.nytimes.com/", function(error,response,html){
+        //then we load it to the cheerio, and $ sign is our selector.Don't confuse with jQuery. 
+        var $ = cheerio.load(html);
+        //we grab h2 with article tag
+        $("article").each(function(i,element){
+            //our results will be saved into this variable.
+            var result= {};
+
+            //add the title and summary of every news, and save them into result variable.
+            result.title = $(this).children("h2").text();
+            result.summary = $(this).children(".summary").text();
+            result.link = $(this).children("h2").children("a").attr("href");
+
+            //now we must pass our result object into the entry,
+            //Article below is coming from out models which helps us create a new entry in our database.
+            var entry = new Article(result);
+
+            entry.save(function(err, doc){
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log(doc)
+                }
+            });
+        });
+        res.send("Scrape is done!")
+    })
+});
+
+//Routes
+
+app.get("/", function(req,res){
+    Article.find({"saved": false}, function(err,data){
+        var hbsObject = {
+            article: data
+          };
+        console.log(hbsObject);
+        res.render("home", hbsObject);
+    });
+});
+
+app.get("/saved", function(req,res){
+    Article.saved.find({"saved":true})
+    .populate("notes")
+    .then(function(err,articles){
+        var hbsObject = {
+            article: articles
+            };
+        
+        res.render("saved",hbsObject);
+    });
+})
