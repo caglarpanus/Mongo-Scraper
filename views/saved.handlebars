@@ -1,55 +1,39 @@
-<div class="savedArt articles">
-    	<ul>
-    		{{#each articles }}
-    		<div class="panel panel-default">
-    		  <div class="panel-heading">
-    		    <h3 class="panel-title">{{title}}</h3>
-    		  </div>
-    		  <div class="panel-body">
-    		    <a class="artLink" href={{link}}>{{link}}</a>
-            <!--ADD NOTES button with a data-value of the news articles id-->
+<!--Saved Articles Page-->
 
-    		      <button data-id={{_id}} class="btn btn-danger pull-right removeSaved">Remove from Saved</button>
+<div class="container">
 
-              <button data-id={{_id}} class="btn btn-primary pull-right saved-buttons"  id="addCheckNote" data-toggle="modal" data-target="#noteModal" data-value="{{this._id}}">View/Add Notes</button>
-    		  </div>
-    		</div>
-    		<br/>
-    		<br/>
-
-
-      <!-- Modal -->
-      <div id="noteModal" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <!--title including the id of the current article-->
-                      <h4 class="modal-title" id=""><b>Notes:</b></h4>
-                      <!--where notes will be displayed-->
-                      <div>
-                          <ul id="notesBody">
-
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="modal-body">
-                      <div class="form-group">
-
-                          <label for="exampleTextarea">Enter New Note</label>
-                          <!--enter note text-->
-                          <textarea class="form-control" id="notestext" rows="3"></textarea>
-                      </div>
-                      <div><!--enter saved notes here--></div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button data-id={{_id}}  data-dismiss="modal" id="saveButton" class="btn btn-primary savenote">Save changes</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      {{/each}}
-    </ul>
-
+    <div class="col-md-12 jumbotron">
+        <div class="text-center">
+            <h1> Saved Articles</h1>
+        </div>
     </div>
+    <div class="col-md-12">
+        {{#if article}}
+            {{#each article}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>{{this.title}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p> {{this.summary}}</p>
+                        <a href={{this.link}} target="_blank">{{this.link}}</a>
+                        <br><br>
+                        <button type="button" class="btn btn-success addNote" data-toggle="modal" data-target="#noteModal{{this._id}}" data-id={{this._id}}>Add a Note</button>
+                        <button type="button" class="btn btn-danger delete" data-id={{this._id}}>Delete</button>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>You have no saved articles.</h4>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+<!--Clicked Notes Modal-->
+{{#each article}}
+    {{> notes-modal }}
+{{/each}}
