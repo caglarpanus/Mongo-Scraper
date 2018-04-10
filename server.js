@@ -79,7 +79,7 @@ app.get("/scrape", function(req,res){
     })
 });
 
-//Routes
+//GET request to render handlebars
 
 app.get("/", function(req,res){
     Article.find({"saved": false}, function(err,data){
@@ -102,3 +102,52 @@ app.get("/saved", function(req,res){
         res.render("saved",hbsObject);
     });
 })
+
+//GET all the articles from mongoDB 
+app.get("/articles", function(req,res){
+    //grab all the articles from Article
+    Article.find({}, function(err,data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(data);
+            res.send(data);
+        }
+    });
+});
+
+//now grab all the articles by their IDs 
+
+app.get("/articles/:id", function(req,res){
+    //find the matching ID 
+    Article.findOne({"_id":req.params.id})
+    //populate all the notes associated with that ID
+    .populate("note")
+    .then(function(err,data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            //sending data to the browser as json object
+            res.json(data);
+        }
+    });
+});
+
+//Save an article
+
+app.post("/articles/saved/:id", function(req,res){
+    //we must use id to find and update its saved boolean
+    Article.findOneAndUpdate({"_id":req.params.id}, {"saved":true})
+    //we use promise to execute query above.
+    .then(function(err,data){
+        if(err){
+            console.log(err);
+        }
+        else{
+            //sending data or the record to the browser
+            res.send(data);
+        }
+    });
+});
