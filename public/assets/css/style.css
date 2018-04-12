@@ -18,3 +18,9 @@ body {
 #scrape {
     margin: 8px 0px;
 }
+
+.jumbotron{
+    background-size: 100% 110%;
+    background-image: url("/assets/image/jumbo.png");
+  
+}
