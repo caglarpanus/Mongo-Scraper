@@ -1,3 +1,20 @@
 html{
     font-family: 'Slabo 27px', serif;
 }
+body {
+    background-image: url("/assets/image/background.jpg");
+    padding-top: 70px;
+}
+
+.deleteNote {
+	display: inline-block;
+}
+
+.previousNotes {
+    display: inline-block;
+    width: 90%
+}
+
+#scrape {
+    margin: 8px 0px;
+}

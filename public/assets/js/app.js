@@ -11,11 +11,11 @@ $("#scrape").on("click", function() {
 
 //Set clicked nav option to active
 $(".navbar-nav li").click(function() {
-    $(".navbar-nav li").removeClass("active");
-    $(this).addClass("active");
- });
+   $(".navbar-nav li").removeClass("active");
+   $(this).addClass("active");
+});
 
- //Handle Save Article button
+//Handle Save Article button
 $(".save").on("click", function() {
     var thisId = $(this).attr("data-id");
     $.ajax({
